@@ -1,26 +1,20 @@
 # chat_client.py
-
+from Tkinter import *
 import sys, socket, select
- 
-def chat_client():
-    if(len(sys.argv) < 3) :
-        print 'Usage : python chat_client.py hostname port'
-        sys.exit()
 
-    host = sys.argv[1]
-    port = int(sys.argv[2])
-     
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.settimeout(2)
-     
-    # connect to remote host
-    try :
-        s.connect((host, port))
-    except :
-        print 'Unable to connect'
-        sys.exit()
-     
-    print 'Connected to remote host. You can start sending messages'
+
+def send():
+    stext = entry.get()
+    print stext
+    
+    
+    
+    
+    
+    
+#---------------------------------------------------------------------------------------------------------
+
+def chatting(s):
     sys.stdout.write('[Me] '); sys.stdout.flush()
      
     while 1:
@@ -46,8 +40,38 @@ def chat_client():
                 msg = sys.stdin.readline()
                 s.send(msg)
                 sys.stdout.write('[Me] '); sys.stdout.flush() 
+    
+    
+    
+    
+#---------------------------------------------------------------------------------------------------------    
+ 
+def connecting():
+    if(len(sys.argv) < 3) :
+        print 'Incorrect usage. Please follow this pattern: \n"python chat_client.py hostname port"\n'
+        sys.exit()
+
+    host = sys.argv[1]
+    port = int(sys.argv[2])
+     
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.settimeout(2)
+     
+    # connect to remote host
+    try :
+        s.connect((host, port))
+    except :
+        print 'Unable to connect'
+        sys.exit()
+     
+    print 'Connected to remote host. You can start sending messages'
+    chatting(s)
+    
+
+
+#---------------------------------------------------------------------------------------------------------
 
 if __name__ == "__main__":
 
-    sys.exit(chat_client())
+    sys.exit(connecting())
 
